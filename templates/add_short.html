@@ -1,0 +1,198 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Admin User</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+	
+	<style>
+        
+        /* add user  */
+        
+        .wrapper{
+            width: 80%;
+            height: 45vh;
+            padding: 2rem 1rem;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: rgba(0, 0, 0, 0.1);
+        }
+        .wrapper h2{
+            color: #554cd1;
+            margin-bottom: 30px;
+        }
+        .add-update .input{
+            width: 70%;
+            outline: none;
+            border: 1px solid #fff;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            background: #e4e4e4;
+
+        
+        }
+        .add-update select{
+            width: 70%;
+            outline: none;
+            border: 1px solid #fff;
+            padding: 12px 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            background: #e4e4e4;
+        }
+        .fbtn{
+            padding: 0 143px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .frm-btn{
+            width: 150px;
+            color: #fff;
+            background: #594ef7;
+        }
+    </style>
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+</head>
+<body>
+   <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>A<span>dmin Panel</span></h3>
+        </div>
+        
+        <div class="side-content">
+            <div class="profile">
+                <div class="profile-img bg-img" style="background-image: url(/static/img/customer01.jpg)"></div>
+                <h4>Swalih</h4>
+                <small>Administrator</small>
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                       <a href="{% url 'home' %}">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="{% url 'add_prod' %}">
+                            <span class="las la-user-alt"></span>
+                            <small>Add Product</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'add_short' %}" class="active">
+                             <span class="las la-user-alt"></span>
+                             <small>Add Short</small>
+                         </a>
+                     </li>
+                     <li>
+                        <a href="{% url 'add_exp' %}">
+                             <span class="las la-user-alt"></span>
+                             <small>Add Exp</small>
+                         </a>
+                     </li>
+                     <li>
+                        <a href="{% url 'add_party' %}">
+                             <span class="las la-user-alt"></span>
+                             <small>Update Party</small>
+                         </a>
+                     </li>
+                     <li>
+                        <a href="{% url 'showorder' %}">
+                             <span class="las la-list"></span>
+                             <small>Show Ordered List</small>
+                         </a>
+                   <li>
+                   <li>
+                    <a href="{% url 'exp_list' %}">
+                         <span class="las la-list"></span>
+                         <small>Show Expiry List</small>
+                     </a>
+                   </li>
+                    <li>
+                       <a href="{% url 'logout_p' %}">
+                            <span class="las la-envelope"></span>
+                            <small>Logout</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        
+        <header>
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                
+                <div class="header-menu">
+                   
+                    <a href="{% url 'logout_p' %}">
+                    <div class="user">
+                        <div class="bg-img" style="background-image: url(img/1.jpeg)"></div>
+                        
+                        <span class="las la-power-off"></span>
+                        <span>Logout</span>
+                    </div>
+					</a>
+                </div>
+            </div>
+        </header>
+        
+        
+        <main>
+            
+            <div class="page-header">
+                <h1>Add Short</h1>
+            </div>
+            
+            <div class="page-content">
+                <div class="records table-responsive">
+				
+				<div class="wrapper">
+				<h2>Enter Short Product</h2>
+				<form class="add-update" action="addshort_form" method="POST">
+				{% csrf_token %}
+                    <input list="pname" id="party" class="input" placeholder="Product Name" name="pname" required>
+                    <datalist id="pname">
+                        {% for i in datas %}
+                        <option value="{{ i.pname }}"></option>
+                        {% endfor %}
+                    </datalist>
+
+                    <input type="text" class="input" placeholder="Quantity" name="qty" required>
+
+                    <div style="text-align: center; color:rgb(255, 0, 0); ">
+						{% for message in messages %}
+						{{ message }}
+						{% endfor %}
+					</div>
+                    <div style="display: flex; justify-content: center;">
+                        <input type="radio" name="emerg" value="urgent">
+                        <label style="padding-left: 1rem; padding-right: 1.5rem;">Urgent</label>
+
+                        <input type="radio" name="emerg" value="non" checked>
+                        <label style="padding-left: 1rem;">Non</label>
+                    </div>
+					<br><input type="submit" class="input" style="width: 150px; background: #594ef7;" name="Add User">
+				</div>
+                </div>
+            
+            </div>
+            
+        </main>
+        
+    </div>
+</body>
+</html>

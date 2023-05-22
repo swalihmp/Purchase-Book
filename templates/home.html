@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+</head>
+<body>
+   <input type="checkbox" id="menu-toggle">
+    <div class="sidebar">
+        <div class="side-header">
+            <h3>A<span>dmin Panel</span></h3>
+        </div>
+        
+        <div class="side-content">
+            <div class="profile">
+                <div class="profile-img bg-img" style="background-image: url(/static/img/customer01.jpg)"></div>
+                <h4>Swalih</h4>
+                <small>Administrator</small>
+            </div>
+
+            <div class="side-menu">
+                <ul>
+                    <li>
+                       <a href="{% url 'home' %}" class="active">
+                            <span class="las la-home"></span>
+                            <small>Dashboard</small>
+                        </a>
+                    </li>
+                    <li>
+                       <a href="{% url 'add_prod' %}">
+                            <span class="las la-user-alt"></span>
+                            <small>Add Product</small>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'add_short' %}">
+                             <span class="las la-user-alt"></span>
+                             <small>Add Short</small>
+                         </a>
+                     </li>
+                     <li>
+                        <a href="{% url 'add_exp' %}">
+                             <span class="las la-user-alt"></span>
+                             <small>Add Exp</small>
+                         </a>
+                     </li>
+                     <li>
+                        <a href="{% url 'add_party' %}">
+                             <span class="las la-user-alt"></span>
+                             <small>Update Party</small>
+                         </a>
+                     </li>
+                     <li>
+                         <a href="{% url 'showorder' %}">
+                              <span class="las la-list"></span>
+                              <small>Show Ordered List</small>
+                          </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'exp_list' %}">
+                             <span class="las la-list"></span>
+                             <small>Show Expiry List</small>
+                         </a>
+                   </li>
+                    <li>
+                       <a href="{% url 'logout_p' %}">
+                            <span class="las la-envelope"></span>
+                            <small>Logout</small>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <div class="main-content">
+        
+        <header>
+            <div class="header-content">
+                <label for="menu-toggle">
+                    <span class="las la-bars"></span>
+                </label>
+                
+                <div class="header-menu">
+                   
+					<a href="{% url 'logout_p' %}">
+                    <div class="user">
+                        <div class="bg-img" style="background-image: url(/static/img/customer01.jpg)"></div>
+                        
+                        <span class="las la-power-off"></span>
+                        <span>Logout</span>
+                    </div>
+					</a>
+                </div>
+				
+            </div>
+        </header>
+        
+        
+        <main>
+            
+            <div class="page-header">
+                <h1>Dashboard</h1>
+            </div>
+            
+            <div class="page-content">
+            
+                <div class="analytics">
+
+                    <div class="card">
+                        <div class="card-head">
+                            <h2>{{ nums }}</h2>
+                            <span class="las la-eye"></span>
+                        </div>
+                        <div class="card-progress">
+                            <small>Number Of Pending Items</small>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="records table-responsive">
+
+                    <div class="record-header">
+                        <div class="add">
+                            <span>List Of Short</span>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <table width="100%">
+                            <thead>
+                                <tr>
+                                    <th><span class="las la-sort"></span> Id</th>
+                                    <th><span class="las la-sort"></span> Product Name</th>
+                                    <th><span class="las la-sort"></span> Available Party</th>
+                                    <th><span class="las la-sort"></span> Qty Reqrd</th>
+                                    <th><span class="las la-sort"></span> Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in datas %}
+                                <tr>
+                                    <td>
+										{{forloop.counter }}
+                                    </td>
+                                    {% if i.is_emergancy %}
+                                    <td style="color: red;" id="pname">
+										{{i.pname.pname}}
+                                    </td>
+                                    {% else %}
+                                    <td>
+										{{i.pname.pname}}
+                                    </td>
+                                    {% endif %}
+                                    <td>
+                                        {% if i.pname.p1_imp %}
+                                        <label style="color: red;">{{i.pname.party1}},</label>
+                                        {% else %}
+                                        {{i.pname.party1}},
+                                        {% endif %}
+                                        {% if i.pname.p2_imp %},
+                                        <label style="color: red;">{{i.pname.party2}},</label>
+                                        {% else %}
+                                        {{i.pname.party2}},
+                                        {% endif %}
+                                        {% if i.pname.p3_imp %}
+                                        <label style="color: red;">{{i.pname.party3}},</label>
+                                        {% else %}
+                                        {{i.pname.party3}},
+                                        {% endif %}
+                                        {% if i.pname.p4_imp %}
+                                        <label style="color: red;">{{i.pname.party4}}</label>
+                                        {% else %}
+                                        {{i.pname.party4}}
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+										{{i.qty}}
+                                    </td>
+									<td>
+										<a href='/update_sh/{{i.id}}'><span class="paid">Mark As Ordered</span><a>
+									</td>
+									
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+            
+        </main>
+    </div>
+</body>
+</html>
